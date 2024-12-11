@@ -1,38 +1,472 @@
-.App {
+:root {
+  --primary-bg-color: #f8f9fa; /* Light background */
+  --primary-color: #007bff; /* Primary button and accents */
+  --secondary-color: #6c757d; /* Secondary text color */
+  --error-color: #dc3545; /* Error messages */
+  --success-color: #28a745; /* Success messages */
+}
+
+/* Navbar Container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Aligns the title and links on opposite sides */
+  background-color: #007bff; /* Blue background color */
+  padding: 50px 30px !important; /* Add spacing inside the navbar */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  position: sticky; /* Keeps the navbar at the top while scrolling */
+  top: 0;
+  z-index: 1000; /* Ensures it stays above other elements */
+}
+
+/* App Content Wrapper */
+.app-content {
+  padding: 20px;
+  background-color: #f9f9f9; /* Light background for the main content */
+  min-height: 100vh; /* Ensure it covers the full height of the viewport */
+}
+
+.admin-dashboard,
+.customer-dashboard {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two-column layout */
+  gap: 30px;
+  padding: 30px;
+  background-color: var(--primary-bg-color);
+}
+
+.dashboard-header {
+  grid-column: span 2;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.control-panel,
+.config-section,
+.ticket-status,
+.add-vendor-section,
+.add-customer-section,
+.customer-ticket-status,
+.vendor-list-section,
+.customer-list-section,
+.log-display {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 85%; /* Make sections smaller to avoid taking full width */
+  margin: 0 auto; /* Center these sections */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* Navbar Title */
+.navbar-title {
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+  margin: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+h2 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 15px !important;
+}
+
+.form-group label {
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--secondary-color);
+  margin-top: 10px;
+}
+
+input,
+button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-top: 15px !important; /* Add space above the input field and button */
+  margin-bottom: 15px !important; /* Add space below the input field and button */
+}
+
+.submit-button, .add-vendor-button, .add-customer-button {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto; /* Center the button horizontally */
+  border-radius: 8px;
+  display: block;
+}
+
+
+input:focus,
+button:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 20px !important;
+  font-weight: bold;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.ticket-status,
+.log-display {
+  grid-column: span 2;
+}
+
+.table-wrapper {
+  max-height: 300px; /* Adjust as needed for the table body */
+  overflow-y: auto; /* Enable vertical scrolling for the table body only */
+  border: 1px solid white;
+}
+
+.vendor-table,
+.customer-table {
+  width: 90%;
+  border-collapse: collapse;
+  margin: auto;
+}
+
+.vendor-table th,
+.vendor-table td,
+.customer-table th,
+.customer-table td {
+  padding: 10px;
+  text-align: left;
+}
+
+.vendor-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9; /* Optional: Zebra striping for rows */
+}
+
+.vendor-table th {
+  position: sticky;
+  top: 0; /* Stick to the top when scrolling */
+  z-index: 1; /* Ensure the header row stays above the table body */
+  margin: 0;
+}
+
+.log-container {
+  max-height: 800px;
+  overflow-y: auto;
+  margin-top: 20px;
+}
+
+.log-entry {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.log-timestamp {
+  color: var(--secondary-color);
+  font-size: 0.85rem;
+}
+
+/* Control Panel */
+.control-panel {
+  display: flex;
+  flex-direction: column; /* Stack items vertically */
+  align-items: center;
+  margin-top: 0; /* Remove any extra top margin */
+  height: calc(46% - 10px); /* Adjust the height to take half the space, leaving a small gap */
+}
+
+.control-panel h2 {
+  text-align: left; /* Align the heading to the left */
+  width: 100%;
+  padding-left: 20px; /* Optional: Add left padding to position the text */
+  margin-bottom: 15px; /* Optional: Add some space below the heading */
+}
+
+.control-buttons {
+  display: flex;
+  justify-content: space-between; /* Space out buttons */
+  gap: 75px; /* Space between buttons */
+  margin-bottom: 15px; /* Space below the buttons */
+}
+
+.control-buttons button {
+  padding: 10px 20px;
+  width: auto;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  background-color: #007bff; /* Green for buttons */
+  color: white;
+  transition: background-color 0.3s;
+}
+
+.control-buttons button:disabled {
+  background-color: #cccccc; /* Light gray background */
+  color: #666666; /* Dark gray text */
+  cursor: not-allowed; /* Change cursor to indicate it's disabled */
+}
+
+.control-buttons button:hover {
+  background-color: #0056b3; /* Darker green on hover */
+}
+
+/* Session Status */
+.session-status,
+.customer-session-status {
+  font-size: 20px;
+  font-weight: bold;
+    padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto; /* Center it */
+}
+
+.session-status.running,
+.customer-session-status.running {
+  background-color: #4caf50; /* Green for running */
+  color: white;
+}
+
+.session-status.stopped,
+.customer-session-status.stopped {
+  background-color: #f44336; /* Red for stopped */
+  color: white;
+}
+
+.customer-session-status {
+  margin-top: 50px !important;
+}
+
+
+/* Ticket Pool Status */
+.ticket-status {
+  margin-top: 40px; /* Add space between Control Panel and Ticket Pool Status */
+  height: calc(50% - 10px); /* Adjust height to fill the remaining space */
+  border-radius: 8px;
+}
+
+.vendor-table table,
+.customer-table table,
+.customer-ticket-status table,
+.ticket-status table {
+  width: 90%;
+  border-collapse: collapse;
+  margin: auto;
+  margin-top: 5%;
+}
+
+.ticket-status th, .ticket-status td, 
+.vendor-table th, .vendor-table td,
+.customer-table th, .customer-table td, 
+.customer-ticket-status th, .customer-ticket-status td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+.ticket-status th, .vendor-table th, .customer-ticket-status th, .customer-table th {
+  background-color: #f0f0f0;
+}
+
+
+.vendor-list-section,
+.customer-list-section {
+  max-height: 400px; /* Set a fixed height, adjust as needed */
+  overflow-y: hidden;  /* Enable vertical scrolling if content overflows */
+  padding-right: 10px; /* Optional: Add a little padding to the right for better aesthetics */
+}
+
+.log-display {
+  border: 1px solid #ccc; /* Optional border to make the section visually distinct */
+  margin-top: 20px;
+  min-height: 150px; /* Ensure the section is always visible, even when empty */
+  width: 93%;
+}
+
+.log-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between log entries */
+  min-height: 100px; /* Reserve space for the logs or placeholder */
+}
+
+.log-entry {
+  border: 1px solid #ddd; /* Border around each log box */
+  border-radius: 5px; /* Rounded corners for better aesthetics */
+  background-color: #b9d3f0; /* Light blue background for log entries */
+  padding: 10px; /* Add space inside the box */
+  margin: 5px 0; /* Space between each log entry */
+  display: flex;
+  justify-content: space-between; /* Separate message and timestamp */
+  align-items: center; /* Align items vertically */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add a slight shadow for depth */
+}
+
+.log-message {
+  font-size: 20px; /* Slightly larger font for the message */
+  color: #333; /* Darker text for better readability */
+  font-weight: 500; /* Slightly bold for emphasis */
+  flex: 1; /* Allow the message to take up more space */
+  word-break: break-word; /* Prevent long messages from breaking layout */
+}
+
+.log-timestamp {
+  font-size: 16px; /* Smaller font for timestamp */
+  color: #555; /* Subdued color for timestamps */
+  margin-left: 10px; /* Space between message and timestamp */
+  white-space: nowrap; /* Prevent timestamp from wrapping */
+  text-align: right; /* Align timestamp to the right */
+}
+
+.log-entry:hover {
+  background-color: #96bce6; /* Slightly darker blue when hovered */
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15); /* More prominent shadow */
+  cursor: pointer; /* Change the cursor to a pointer */
+}
+
+.no-logs {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+  background-color: #f0f0f0; /* Light gray background */
+  border: 1px dashed #ccc; /* Dashed border for placeholder */
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+
+.login-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  height: 100vh; /* Full screen height */
+  background-color: #f0f0f0; /* Light grey background */
+  padding: 20px;
+  overflow: hidden !important;
+}
+
+.login-heading {
+  font-size: 36px;
+  color: #007bff; /* Blue color for the header */
+  margin-bottom: 60px;
+}
+
+.role-selection {
+  font-size: 30px;
+  color: #333;
+  margin-bottom: 50px;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #007bff;
   color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.add-vendor-button:disabled,
+.add-customer-button:disabled,
+.submit-button:disabled {
+  background-color: #cccccc; /* Light gray background */
+  color: #666666; /* Dark gray text */
+  cursor: not-allowed; /* Change cursor to indicate it's disabled */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.error-message{
+  color: red;
+}
+
+
+.feedback-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  border-radius: 5px;
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  z-index: 1000;
+  display: inline-block;
+  min-width: 200px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.feedback-message.success {
+  background-color: green;
+}
+
+.feedback-message.error {
+  background-color: red;
+}
+
+/* Show the message when it's triggered */
+.feedback-message.show {
+  opacity: 1;
+}
+
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 20px 15px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .admin-dashboard,
+  .customer-dashboard {
+    grid-template-columns: 1fr; /* Stack columns on small screens */
+    padding: 15px;
+  }
+
+  .control-panel,
+  .config-section,
+  .ticket-status,
+  .add-vendor-section,
+  .add-customer-section {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .submit-button,
+  .add-vendor-button,
+  .add-customer-button {
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .login-container {
+    padding: 10px;
+  }
+
+  .login-heading {
+    font-size: 28px;
+    margin-bottom: 40px;
+  }
+
+  .button-group button {
+    font-size: 16px;
+    padding: 8px 15px;
+  }
+
+  .role-selection {
+    font-size: 24px;
   }
 }
+
